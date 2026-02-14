@@ -1,0 +1,26 @@
+name: CI/CD Pipeline
+
+run-name: ${{github.workflow}} - ${{github.event.head_commit.message}}
+
+on:
+  workflow_dispatch:
+  push:
+    branches: "main"
+
+env:
+  NODE_VERSION: 24
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run test
+        run: make test
