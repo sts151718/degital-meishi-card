@@ -27,7 +27,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -47,7 +46,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [test, build]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
