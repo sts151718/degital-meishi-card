@@ -1,6 +1,6 @@
 name: CI/CD Pipeline
 
-run-name: ${{github.workflow}} - ${{github.event.head_commit.message}}
+run-name: ${{github.workflow}} - ${{github.event.head_commit.message || github.event_name}}
 
 on:
   workflow_dispatch:
