@@ -35,6 +35,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
       - name: Install Dependencies
         run: npm ci
       - name: Build Project
@@ -43,3 +44,34 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Download Artifact
+        uses: actions/download-artifact@v6
+        with:
+          path: dist
+      - name: Install Firebase tool
+        run: npm install --save-dev firebase-tools
+      - name: Setup Firebase Login
+        run: |
+          echo "${{ secrets.FIREBASE_KEY }}" | base64 -d > ${{ github.workspace }}/firebase-key.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
+      - name: Setup Firebase Project
+        run: npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+      - name: Deploy to Firebase
+        run: npx firebase deploy
+      - name: cleanUp Secrets Key
+        run: |
+          rm $GOOGLE_APPLICATION_CREDENTIALS
+        if: always()
