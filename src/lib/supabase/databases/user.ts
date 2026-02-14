@@ -1,6 +1,6 @@
-import { User, type IUser, type UserCreate } from "@/domain/User";
+import { User, type IUser, type IUserCreate } from "@/domain/class/User";
 import { supabase } from "../setup";
-import { Skill } from "@/domain/Skill";
+import { Skill } from "@/domain/class/Skill";
 
 export const selectUserById = async (userId: string) => {
   const { data, error } = await supabase
@@ -17,7 +17,7 @@ export const selectUserById = async (userId: string) => {
   const skillData = data.user_skill[0].skills;
   const skill = new Skill(skillData.id, skillData.name);
 
-  const userData: UserCreate = {
+  const userData: IUserCreate = {
     id: data.id,
     name: data.name,
     description: data.description,

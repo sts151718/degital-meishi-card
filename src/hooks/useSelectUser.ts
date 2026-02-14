@@ -1,4 +1,4 @@
-import type { User } from "@/domain/User";
+import type { User } from "@/domain/class/User";
 import { selectUserById } from "@/lib/supabase/databases/user";
 import { useState } from "react";
 

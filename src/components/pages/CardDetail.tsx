@@ -1,4 +1,4 @@
-import { useEffect, type FC } from "react";
+import { useEffect, type FC, type ReactNode } from "react";
 import { useParams } from "react-router";
 import { Flex, Heading, Spinner } from "@chakra-ui/react";
 import { FaSquareGithub, FaXTwitter } from "react-icons/fa6";
@@ -7,7 +7,11 @@ import { LinkIcon } from "../atoms/LinkIcon";
 import { MainCard } from "../molecules/MainCard";
 import { DescriptionList } from "../molecules/DescriptionList";
 import { useSelectUser } from "@/hooks/useSelectUser";
-import type { UserDescription } from "@/domain/User";
+import type { ISnsUrl } from "@/domain/class/User";
+import {
+  makeProfileDescriptions,
+  type IUserDescription,
+} from "@/domain/view/makeUserProfiles";
 
 export const CardDetail: FC = () => {
   const { userId } = useParams();
@@ -24,8 +28,15 @@ export const CardDetail: FC = () => {
     })();
   }, []);
 
-  const profiles: Array<UserDescription> =
-    selectedUser?.makeProfileDescriptions() ?? [];
+  const profiles: Array<IUserDescription> =
+    makeProfileDescriptions(selectedUser);
+
+  const enabledSnsList = selectedUser?.pickEnabledSnsList() ?? [];
+  const snsIcons: Record<keyof ISnsUrl, ReactNode> = {
+    githubUrl: <FaSquareGithub />,
+    qiitaUrl: <SiQiita />,
+    xUrl: <FaXTwitter />,
+  };
 
   if (isLoading) {
     return (
@@ -40,36 +51,17 @@ export const CardDetail: FC = () => {
       header={<Heading>{selectedUser?.name}</Heading>}
       footer={
         <Flex align="center" justifyContent="space-between" w="full">
-          {selectedUser?.githubUrl && (
+          {enabledSnsList.map((sns) => (
             <LinkIcon
-              href={selectedUser.githubUrl}
+              key={sns}
+              href={selectedUser?.[sns] ?? ""}
               iconProps={{ size: "2xl" }}
               isBlank
               isReferrer
             >
-              <FaSquareGithub />
+              {snsIcons[sns]}
             </LinkIcon>
-          )}
-          {selectedUser?.qiitaUrl && (
-            <LinkIcon
-              href={selectedUser.qiitaUrl}
-              iconProps={{ size: "2xl" }}
-              isBlank
-              isReferrer
-            >
-              <SiQiita />
-            </LinkIcon>
-          )}
-          {selectedUser?.xUrl && (
-            <LinkIcon
-              href={selectedUser.xUrl}
-              iconProps={{ size: "2xl" }}
-              isBlank
-              isReferrer
-            >
-              <FaXTwitter />
-            </LinkIcon>
-          )}
+          ))}
         </Flex>
       }
     >

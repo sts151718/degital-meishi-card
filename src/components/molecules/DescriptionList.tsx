@@ -1,9 +1,9 @@
-import type { UserDescription } from "@/domain/User";
+import type { IUserDescription } from "@/domain/class/User";
 import { Box, Heading, Stack } from "@chakra-ui/react";
 import type { FC } from "react";
 
 type Props = {
-  contents: Array<UserDescription>;
+  contents: Array<IUserDescription>;
   spaceY?: string;
 };
 
