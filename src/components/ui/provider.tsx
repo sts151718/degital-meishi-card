@@ -14,6 +14,8 @@ const config = defineConfig({
       margin: 0,
       padding: 0,
       color: "gray.600",
+      backgroundColor: "gray.100",
+      minH: "100vh",
     },
   },
 });

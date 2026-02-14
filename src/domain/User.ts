@@ -1,4 +1,6 @@
+import { htmlParse } from "@/lib/parser/htmlParse";
 import type { Skill } from "./Skill";
+import type { ReactNode } from "react";
 
 export interface IUser {
   readonly id: string;
@@ -18,6 +20,11 @@ export type UserCreate = {
   qiitaId: string | null;
   xId: string | null;
   skill: Skill;
+};
+
+export type UserDescription = {
+  title: string;
+  detail: ReactNode;
 };
 
 export class User implements IUser {
@@ -49,10 +56,15 @@ export class User implements IUser {
 
   public static create(data: UserCreate) {
     const githubUrl =
-      data.githubId !== null ? `https://github.com/${data.githubId}` : null;
+      data.githubId !== null && data.githubId !== ""
+        ? `https://github.com/${data.githubId}`
+        : null;
     const qiitaUrl =
-      data.qiitaId !== null ? `https://qiita.com/${data.qiitaId}` : null;
-    const xUrl = data.xId !== null ? `https://x.com/${data.xId}` : null;
+      data.qiitaId !== null && data.qiitaId !== ""
+        ? `https://qiita.com/${data.qiitaId}`
+        : null;
+    const xUrl =
+      data.xId !== null && data.xId !== "" ? `https://x.com/${data.xId}` : null;
 
     return new User(
       data.id,
@@ -64,4 +76,14 @@ export class User implements IUser {
       data.skill,
     );
   }
+
+  public makeProfileDescriptions = (): Array<UserDescription> => {
+    return [
+      {
+        title: "自己紹介",
+        detail: htmlParse(this?.description ?? ""),
+      },
+      { title: "好きな技術", detail: this?.skill.name ?? "" },
+    ];
+  };
 }
