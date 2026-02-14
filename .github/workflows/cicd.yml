@@ -11,8 +11,23 @@ env:
   NODE_VERSION: 24
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Setup Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run test
+        run: make test
+
   build:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -27,30 +42,25 @@ jobs:
         run: npm run build
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
-  test:
+        with:
+          path: dist
+
+  deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v6
+      - name: Checkout Repository
+        uses: actions/checkout@v6
       - name: Setup Nodejs
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install Dependencies
         run: npm ci
-      - name: Run test
-        run: make test
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
       - name: Download Artifact
         uses: actions/download-artifact@v6
-      - name: Setup Nodejs
-        uses: actions/setup-node@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          path: dist
       - name: Install Firebase tool
         run: npm install --save-dev firebase-tools
       - name: Setup Firebase Login
