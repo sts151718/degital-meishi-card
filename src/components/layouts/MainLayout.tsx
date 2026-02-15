@@ -1,10 +1,10 @@
-import { Container } from "@chakra-ui/react";
-import type { FC } from "react";
-import { Outlet } from "react-router";
+import { Container } from '@chakra-ui/react';
+import type { FC } from 'react';
+import { Outlet } from 'react-router';
 
 export const MainLayout: FC = () => {
   return (
-    <Container mt="16" px="8">
+    <Container mt="12" mx="auto" px="8" pb="8">
       <Outlet />
     </Container>
   );

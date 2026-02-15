@@ -1,17 +1,14 @@
-import { useEffect, type FC, type ReactNode } from "react";
-import { useParams } from "react-router";
-import { Flex, Heading, Spinner } from "@chakra-ui/react";
-import { FaSquareGithub, FaXTwitter } from "react-icons/fa6";
-import { SiQiita } from "react-icons/si";
-import { LinkIcon } from "../atoms/LinkIcon";
-import { MainCard } from "../molecules/MainCard";
-import { DescriptionList } from "../molecules/DescriptionList";
-import { useSelectUser } from "@/hooks/useSelectUser";
-import type { ISnsUrl } from "@/domain/class/User";
-import {
-  makeProfileDescriptions,
-  type IUserDescription,
-} from "@/domain/view/makeUserProfiles";
+import { useEffect, type FC, type ReactNode } from 'react';
+import { useParams } from 'react-router';
+import { Center, Flex, Heading, Spinner } from '@chakra-ui/react';
+import { FaSquareGithub, FaXTwitter } from 'react-icons/fa6';
+import { SiQiita } from 'react-icons/si';
+import { LinkIcon } from '../atoms/LinkIcon';
+import { MainCard } from '../molecules/MainCard';
+import { DescriptionList, type IDescriptionItem } from '../molecules/DescriptionList';
+import { useSelectUser } from '@/hooks/useSelectUser';
+import type { ISnsUrl } from '@/domain/class/User';
+import { makeProfileDescriptions } from '@/domain/view/makeUserProfiles';
 
 export const CardDetail: FC = () => {
   const { userId } = useParams();
@@ -21,15 +18,14 @@ export const CardDetail: FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        await fetchUser(userId ?? "");
+        await fetchUser(userId ?? '');
       } catch (error) {
         console.error(error);
       }
     })();
   }, []);
 
-  const profiles: Array<IUserDescription> =
-    makeProfileDescriptions(selectedUser);
+  const profiles: Array<IDescriptionItem> = makeProfileDescriptions(selectedUser);
 
   const enabledSnsList = selectedUser?.pickEnabledSnsList() ?? [];
   const snsIcons: Record<keyof ISnsUrl, ReactNode> = {
@@ -41,7 +37,9 @@ export const CardDetail: FC = () => {
   if (isLoading) {
     return (
       <MainCard>
-        <Spinner />
+        <Center>
+          <Spinner />
+        </Center>
       </MainCard>
     );
   }
@@ -52,13 +50,7 @@ export const CardDetail: FC = () => {
       footer={
         <Flex align="center" justifyContent="space-between" w="full">
           {enabledSnsList.map((sns) => (
-            <LinkIcon
-              key={sns}
-              href={selectedUser?.[sns] ?? ""}
-              iconProps={{ size: "2xl" }}
-              isBlank
-              isReferrer
-            >
+            <LinkIcon key={sns} href={selectedUser?.[sns] ?? ''} iconProps={{ size: '2xl' }} isBlank isReferrer>
               {snsIcons[sns]}
             </LinkIcon>
           ))}

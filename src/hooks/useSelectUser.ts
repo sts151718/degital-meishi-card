@@ -1,6 +1,6 @@
-import type { User } from "@/domain/class/User";
-import { selectUserById } from "@/lib/supabase/databases/user";
-import { useState } from "react";
+import type { User } from '@/domain/class/User';
+import { selectUserById } from '@/lib/supabase/databases/user';
+import { useState } from 'react';
 
 export const useSelectUser = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -9,8 +9,8 @@ export const useSelectUser = () => {
   const fetchUser = async (userId: string) => {
     setIsLoading(true);
 
-    if (userId === "") {
-      throw new Error("Empty User Id");
+    if (userId === '') {
+      throw new Error('Empty User Id');
     }
 
     const user = await selectUserById(userId);

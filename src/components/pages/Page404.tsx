@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import { Link } from "react-router";
+import type { FC } from 'react';
 
 export const Page404: FC = () => {
   return (

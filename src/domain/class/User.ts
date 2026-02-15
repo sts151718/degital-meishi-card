@@ -1,4 +1,4 @@
-import type { Skill } from "./Skill";
+import type { Skill } from './Skill';
 
 export interface ISnsUrl {
   readonly githubUrl: string | null;
@@ -39,7 +39,7 @@ export class User implements IUser {
     githubUrl: string | null,
     qiitaUrl: string | null,
     xUrl: string | null,
-    skill: Skill,
+    skill: Skill
   ) {
     this.id = id;
     this.name = name;
@@ -51,21 +51,11 @@ export class User implements IUser {
   }
 
   public static create(data: IUserCreate) {
-    const githubUrl =
-      data.githubId !== null ? `https://github.com/${data.githubId}` : null;
-    const qiitaUrl =
-      data.qiitaId !== null ? `https://qiita.com/${data.qiitaId}` : null;
+    const githubUrl = data.githubId !== null ? `https://github.com/${data.githubId}` : null;
+    const qiitaUrl = data.qiitaId !== null ? `https://qiita.com/${data.qiitaId}` : null;
     const xUrl = data.xId !== null ? `https://x.com/${data.xId}` : null;
 
-    return new User(
-      data.id,
-      data.name,
-      data.description,
-      githubUrl,
-      qiitaUrl,
-      xUrl,
-      data.skill,
-    );
+    return new User(data.id, data.name, data.description, githubUrl, qiitaUrl, xUrl, data.skill);
   }
 
   public pickEnabledSnsList = (): Array<keyof ISnsUrl> => {

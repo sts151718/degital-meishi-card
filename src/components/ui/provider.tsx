@@ -1,21 +1,16 @@
-"use client";
+'use client';
 
-import {
-  ChakraProvider,
-  createSystem,
-  defaultConfig,
-  defineConfig,
-} from "@chakra-ui/react";
-import { ColorModeProvider, type ColorModeProviderProps } from "./color-mode";
+import { ChakraProvider, createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
+import { ColorModeProvider, type ColorModeProviderProps } from './color-mode';
 
 const config = defineConfig({
   globalCss: {
-    "body,html": {
+    'body,html': {
       margin: 0,
       padding: 0,
-      color: "gray.600",
-      backgroundColor: "gray.100",
-      minH: "100vh",
+      color: 'gray.600',
+      backgroundColor: 'gray.100',
+      minH: '100vh',
     },
   },
 });

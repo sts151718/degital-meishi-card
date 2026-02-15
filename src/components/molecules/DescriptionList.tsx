@@ -1,14 +1,18 @@
-import type { IUserDescription } from "@/domain/class/User";
-import { Box, Heading, Stack } from "@chakra-ui/react";
-import type { FC } from "react";
+import { Box, Heading, Stack } from '@chakra-ui/react';
+import { memo, type FC, type ReactNode } from 'react';
+
+export type IDescriptionItem = {
+  readonly title: string;
+  readonly detail: ReactNode;
+};
 
 type Props = {
-  contents: Array<IUserDescription>;
+  contents: Array<IDescriptionItem>;
   spaceY?: string;
 };
 
-export const DescriptionList: FC<Props> = (props) => {
-  const { contents, spaceY = "6" } = props;
+export const DescriptionList: FC<Props> = memo((props) => {
+  const { contents, spaceY = '6' } = props;
 
   return (
     <Stack as="dl" p={0} spaceY={spaceY}>
@@ -22,4 +26,4 @@ export const DescriptionList: FC<Props> = (props) => {
       ))}
     </Stack>
   );
-};
+});
