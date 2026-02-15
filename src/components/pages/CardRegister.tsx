@@ -1,4 +1,4 @@
-import { Field, Heading, Input, NativeSelect, Stack, Text, Textarea } from '@chakra-ui/react';
+import { Container, Field, Heading, Input, NativeSelect, Stack, Text, Textarea } from '@chakra-ui/react';
 import { useEffect, useState, type FC } from 'react';
 import { MainCard } from '../molecules/MainCard';
 import { PrimaryButton } from '../atoms/button/PrimaryButton';
@@ -79,8 +79,8 @@ export const CardRegister: FC = () => {
   };
 
   return (
-    <>
-      <Heading as="h1" mb="6" size="2xl" textAlign="center">
+    <Container textAlign="center">
+      <Heading as="h1" mb="6" size="3xl">
         名刺新規登録
       </Heading>
       <MainCard>
@@ -150,12 +150,12 @@ export const CardRegister: FC = () => {
               <Field.ErrorText></Field.ErrorText>
             </Field.Root>
             <Text>*は必須項目です。</Text>
-            <PrimaryButton buttonProps={{ type: 'submit', disabled: isLoading, loading: isLoading }}>
+            <PrimaryButton type="submit" disabled={isLoading} loading={isLoading}>
               登録
             </PrimaryButton>
           </Stack>
         </form>
       </MainCard>
-    </>
+    </Container>
   );
 };

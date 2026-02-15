@@ -6,11 +6,11 @@ type Props = {
   onClick?: () => void;
 };
 
-export const PrimaryButton: FC<Props & ButtonProps> = memo((props) => {
+export const SecondaryButton: FC<Props & ButtonProps> = memo((props) => {
   const { children, onClick, ...rest } = props;
 
   return (
-    <Button fontSize="md" colorPalette="blue" onClick={onClick} {...rest}>
+    <Button fontSize="md" colorPalette="teal" onClick={onClick} {...rest}>
       {children}
     </Button>
   );

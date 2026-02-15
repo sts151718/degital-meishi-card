@@ -1,17 +1,16 @@
-import { useEffect, type FC, type ReactNode } from 'react';
-import { useParams } from 'react-router';
-import { Center, Flex, Heading, Spinner } from '@chakra-ui/react';
-import { FaSquareGithub, FaXTwitter } from 'react-icons/fa6';
-import { SiQiita } from 'react-icons/si';
-import { LinkIcon } from '../atoms/LinkIcon';
+import { useEffect, type FC } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { Center, Spinner, Stack } from '@chakra-ui/react';
 import { MainCard } from '../molecules/MainCard';
-import { DescriptionList, type IDescriptionItem } from '../molecules/DescriptionList';
+import type { IDescriptionItem } from '../molecules/DescriptionList';
 import { useSelectUser } from '@/hooks/useSelectUser';
-import type { ISnsUrl } from '@/domain/class/User';
 import { makeProfileDescriptions } from '@/domain/view/makeUserProfiles';
+import { SecondaryButton } from '../atoms/button/SecondaryButton';
+import { CardProfile } from '../organisms/CardProfile';
 
 export const CardDetail: FC = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const { selectedUser, isLoading, fetchUser } = useSelectUser();
 
@@ -27,37 +26,27 @@ export const CardDetail: FC = () => {
 
   const profiles: Array<IDescriptionItem> = makeProfileDescriptions(selectedUser);
 
-  const enabledSnsList = selectedUser?.pickEnabledSnsList() ?? [];
-  const snsIcons: Record<keyof ISnsUrl, ReactNode> = {
-    githubUrl: <FaSquareGithub />,
-    qiitaUrl: <SiQiita />,
-    xUrl: <FaXTwitter />,
-  };
+  const enabledSnsUrls = selectedUser?.pickEnabledSnsUrls() ?? {};
+
+  const onNavigateTop = () => navigate('/');
 
   if (isLoading) {
     return (
-      <MainCard>
-        <Center>
-          <Spinner />
-        </Center>
-      </MainCard>
+      <Stack spaceY={6}>
+        <MainCard>
+          <Center>
+            <Spinner />
+          </Center>
+        </MainCard>
+        <SecondaryButton onClick={onNavigateTop}>戻る</SecondaryButton>
+      </Stack>
     );
   }
 
   return (
-    <MainCard
-      header={<Heading>{selectedUser?.name}</Heading>}
-      footer={
-        <Flex align="center" justifyContent="space-between" w="full">
-          {enabledSnsList.map((sns) => (
-            <LinkIcon key={sns} href={selectedUser?.[sns] ?? ''} iconProps={{ size: '2xl' }} isBlank isReferrer>
-              {snsIcons[sns]}
-            </LinkIcon>
-          ))}
-        </Flex>
-      }
-    >
-      <DescriptionList contents={profiles}></DescriptionList>
-    </MainCard>
+    <Stack spaceY={6}>
+      <CardProfile name={selectedUser?.name ?? ''} snsUrls={enabledSnsUrls} profiles={profiles} />
+      <SecondaryButton onClick={onNavigateTop}>戻る</SecondaryButton>
+    </Stack>
   );
 };

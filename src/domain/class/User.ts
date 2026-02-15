@@ -1,15 +1,15 @@
 import type { Skill } from './Skill';
 
 export interface ISnsUrl {
-  readonly githubUrl: string | null;
-  readonly qiitaUrl: string | null;
-  readonly xUrl: string | null;
+  githubUrl: string | null;
+  qiitaUrl: string | null;
+  xUrl: string | null;
 }
 
 export interface IUserProfile {
-  readonly name: string;
-  readonly description: string;
-  readonly skill: Skill;
+  name: string;
+  description: string;
+  skill: Skill;
 }
 
 export interface IUser extends ISnsUrl, IUserProfile {
@@ -58,17 +58,17 @@ export class User implements IUser {
     return new User(data.id, data.name, data.description, githubUrl, qiitaUrl, xUrl, data.skill);
   }
 
-  public pickEnabledSnsList = (): Array<keyof ISnsUrl> => {
+  public pickEnabledSnsUrls = (): Partial<ISnsUrl> => {
     const snsUrls = {
       githubUrl: this.githubUrl,
       qiitaUrl: this.qiitaUrl,
       xUrl: this.xUrl,
     };
 
-    const enabledSnsList: Array<keyof ISnsUrl> = [];
+    const enabledSnsList: Partial<ISnsUrl> = {};
     (Object.keys(snsUrls) as Array<keyof ISnsUrl>).forEach((key) => {
       if (snsUrls[key]) {
-        enabledSnsList.push(key);
+        enabledSnsList[key] = snsUrls[key];
       }
     });
 
