@@ -11,6 +11,10 @@ vi.mock('react-router', async () => {
   };
 });
 
+vi.mock('@/lib/supabase/databases/skill', () => ({
+  selectAllSkills: vi.fn(),
+}));
+
 import { Top } from '@/components/pages/Top';
 import { Provider } from '@/components/ui/provider';
 import { CardRegister } from '@/components/pages/CardRegister';
