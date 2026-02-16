@@ -3,8 +3,7 @@ import { type FC } from 'react';
 import { MainCard } from '../molecules/MainCard';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { SecondaryButton } from '../atoms/button/SecondaryButton';
-import { useNavigate } from 'react-router';
-import { Link } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 
 type Inputs = {
   id: string;
