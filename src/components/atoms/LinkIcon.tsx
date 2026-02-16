@@ -1,29 +1,26 @@
-import { Icon, Link, type IconProps } from "@chakra-ui/react";
-import { memo, type FC, type ReactNode } from "react";
+import { Icon, Link, type IconProps, type LinkProps } from '@chakra-ui/react';
+import { memo, type FC, type ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
   href: string;
-  iconProps?: IconProps & React.RefAttributes<SVGSVGElement>;
   isBlank?: boolean;
   isReferrer?: boolean;
+  LinkProps?: LinkProps & import('react').RefAttributes<HTMLAnchorElement>;
+  iconProps?: IconProps & React.RefAttributes<SVGSVGElement>;
 };
 
 export const LinkIcon: FC<Props> = memo((props) => {
-  const {
-    children,
-    href,
-    iconProps = {},
-    isBlank = false,
-    isReferrer = false,
-  } = props;
+  const { children, href, iconProps = {}, isBlank = false, isReferrer = false, LinkProps } = props;
 
-  const blank = isBlank ? "_blank" : "";
-  const rel = isReferrer ? "noreferrer" : "";
+  const blank = isBlank ? '_blank' : '';
+  const rel = isReferrer ? 'noreferrer' : '';
 
   return (
-    <Link target={blank} rel={rel} href={href}>
-      <Icon {...iconProps}>{children}</Icon>
+    <Link target={blank} rel={rel} href={href} {...LinkProps}>
+      <Icon role="img" {...iconProps}>
+        {children}
+      </Icon>
     </Link>
   );
 });

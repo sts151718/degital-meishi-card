@@ -17,6 +17,7 @@ export const selectUserById = async (userId: string): Promise<User> => {
   }
 
   const skillData = data.user_skill[0].skills;
+
   const skill = new Skill(skillData.id, skillData.name);
 
   const userData: IUserCreate = {

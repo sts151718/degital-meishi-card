@@ -13,26 +13,39 @@ type Props = {
   profiles: Array<IDescriptionItem>;
 };
 
+type SnsIcon = {
+  label: string;
+  node: ReactNode;
+};
+
 export const CardProfile: FC<Props> = (props) => {
   const { name, snsUrls, profiles } = props;
-  const snsIcons: Record<keyof ISnsUrl, ReactNode> = {
-    githubUrl: <FaSquareGithub />,
-    qiitaUrl: <SiQiita />,
-    xUrl: <FaXTwitter />,
+  const snsIcons: Record<keyof ISnsUrl, SnsIcon> = {
+    githubUrl: { label: 'Githubアイコン', node: <FaSquareGithub /> },
+    qiitaUrl: { label: 'Qiitaアイコン', node: <SiQiita /> },
+    xUrl: { label: 'Xアイコン', node: <FaXTwitter /> },
   };
 
   return (
     <MainCard
-      header={<Heading>{name}</Heading>}
+      header={<Heading as="h1">{name}</Heading>}
       footer={
         <Flex align="center" justifyContent="space-between" w="full">
           {(Object.keys(snsUrls) as Array<keyof ISnsUrl>).map((key) => (
-            <LinkIcon key={key} href={snsUrls[key] ?? ''} iconProps={{ size: '2xl' }} isBlank isReferrer>
-              {snsIcons[key]}
+            <LinkIcon
+              key={key}
+              href={snsUrls[key] ?? ''}
+              isBlank
+              isReferrer
+              LinkProps={{ 'aria-label': snsIcons[key].label }}
+              iconProps={{ size: '2xl' }}
+            >
+              {snsIcons[key].node}
             </LinkIcon>
           ))}
         </Flex>
       }
+      data-testid="card-profile"
     >
       <DescriptionList contents={profiles}></DescriptionList>
     </MainCard>

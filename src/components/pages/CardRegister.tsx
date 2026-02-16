@@ -24,29 +24,30 @@ export const CardRegister: FC = () => {
   const id = register('id', {
     required: {
       value: true,
-      message: '必須項目です。',
+      message: '好きな英単語は必須項目です。',
     },
     pattern: {
       value: /^[A-Za-z]+$/,
       message: 'アルファベットのみ入力可能です。',
     },
   });
+
   const name = register('name', {
     required: {
       value: true,
-      message: '必須項目です。',
+      message: 'お名前は必須項目です。',
     },
   });
   const description = register('description', {
     required: {
       value: true,
-      message: '必須項目です。',
+      message: '自己紹介は必須項目です。',
     },
   });
   const skillId = register('skillId', {
     required: {
       value: true,
-      message: '必須項目です。',
+      message: '好きな技術は必須項目です。',
     },
   });
   const githubId = register('githubId');
@@ -79,12 +80,12 @@ export const CardRegister: FC = () => {
   };
 
   return (
-    <Container textAlign="center">
+    <Container textAlign="center" data-testid="register-page">
       <Heading as="h1" mb="6" size="3xl">
         名刺新規登録
       </Heading>
       <MainCard>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form role="form" onSubmit={handleSubmit(onSubmit)} noValidate>
           <Stack spaceY={4}>
             <Field.Root required invalid={!!errors.id}>
               <Field.Label fontSize="md">

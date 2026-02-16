@@ -1,5 +1,5 @@
-import { Card } from "@chakra-ui/react";
-import { memo, type FC, type ReactNode } from "react";
+import { Card } from '@chakra-ui/react';
+import { memo, type FC, type ReactNode } from 'react';
 
 type Props = {
   header?: ReactNode;

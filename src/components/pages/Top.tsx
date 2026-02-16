@@ -22,7 +22,7 @@ export const Top: FC = () => {
   const id = register('id', {
     required: {
       value: true,
-      message: '必須項目です。',
+      message: 'IDは必須項目です。',
     },
   });
 

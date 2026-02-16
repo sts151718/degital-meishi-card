@@ -15,7 +15,7 @@ export const DescriptionList: FC<Props> = memo((props) => {
   const { contents, spaceY = '6' } = props;
 
   return (
-    <Stack as="dl" p={0} spaceY={spaceY}>
+    <Stack as="dl" role="list" p={0} spaceY={spaceY}>
       {contents.map(({ title, detail }) => (
         <div key={title}>
           <Heading as="dt" size="sm">

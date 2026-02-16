@@ -4,7 +4,7 @@ import { Outlet } from 'react-router';
 
 export const MainLayout: FC = () => {
   return (
-    <Container mt="12" mx="auto" px="8" pb="8">
+    <Container mt="12" mx="auto" px="8" pb="8" maxW="500px">
       <Outlet />
     </Container>
   );
