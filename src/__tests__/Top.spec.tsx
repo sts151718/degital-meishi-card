@@ -11,6 +11,10 @@ vi.mock('react-router', async () => {
   };
 });
 
+// CardRegisterコンポーネントで必要なモック
+vi.mock('@/lib/supabase/databases/user', () => ({
+  insertUser: vi.fn(),
+}));
 const mockSkills = vi.hoisted(() => [
   { id: 1, name: 'React' },
   { id: 2, name: 'TypeScript' },
@@ -25,6 +29,7 @@ vi.mock('@/lib/supabase/databases/skill', () => ({
 import { Top } from '@/components/pages/Top';
 import { Provider } from '@/components/ui/provider';
 import { CardRegister } from '@/components/pages/CardRegister';
+import { Skill } from '@/domain/class/Skill';
 
 describe('トップページのテスト', () => {
   afterEach(() => {
