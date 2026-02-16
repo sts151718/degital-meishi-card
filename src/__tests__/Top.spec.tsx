@@ -11,6 +11,17 @@ vi.mock('react-router', async () => {
   };
 });
 
+const mockSkills = vi.hoisted(() => [
+  { id: 1, name: 'React' },
+  { id: 2, name: 'TypeScript' },
+  { id: 3, name: 'Github' },
+]);
+vi.mock('@/lib/supabase/databases/skill', () => ({
+  selectAllSkills: vi
+    .fn()
+    .mockImplementation(() => Promise.resolve(mockSkills.map((skill) => new Skill(skill.id, skill.name)))),
+}));
+
 import { Top } from '@/components/pages/Top';
 import { Provider } from '@/components/ui/provider';
 import { CardRegister } from '@/components/pages/CardRegister';
