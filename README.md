@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# デジタル名刺アプリ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+名刺をWebアプリ上で登録・検索するアプリケーションを作成しました。
 
-Currently, two official plugins are available:
+## 目次
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [アプリ画面](#アプリ画面)
+- [ページ一覧](#ページ一覧)
+- [バッチについて](#バッチについて)
+- [環境設定](#環境設定)
+- [起動方法](#起動方法)
+- [ホスティング](#ホスティング)
+- [テーブル](#テーブル)
 
-## React Compiler
+# アプリ画面
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![Image](https://github.com/user-attachments/assets/5a3e3b4f-7de3-40b7-aab8-ef5d0882e67e)
 
-## Expanding the ESLint configuration
+# ページ一覧
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| 画面名       | パス              |
+| ------------ | ----------------- |
+| カード検索   | `/`               |
+| 名刺登録画面 | `/cards/register` |
+| 名刺詳細画面 | `/cards/:id`      |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# バッチについて
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+毎朝6時に登録した名刺は翌日に削除されるバッチを登録しています。
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 環境設定
+
+1. このリポジトリをクローンしてください。
+
+   ```
+   git@github.com:sts151718/degital-meishi-card.git
+   ```
+
+2. 依存関係のインストールをしてください。
+
+   ```
+   npm ci
+   ```
+
+3. `.env.template`から`.env`ファイルを作成してください。
+
+4. Supabase(https://supabase.com/)でテーブル・レコードを作成してください。
+   1. プロジェクトを作成してください。（プロジェクト名は任意）
+   2. [下記のテーブル](#テーブル)を作成し、以下のカラムを作成してください。
+   3. プロジェクトURLとプロジェクトキーを`.env`内のVITE_SUPABASE_URLとVITE_SUPABASE_PUBLISHABLE_KEY変数にコピー&ペーストしてください。
+
+# 起動方法
+
+```
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+http://localhost:5173/ をURLバーに入力するか、ターミナルでURLをCtrl(Command (⌘) ) + クリックすると、開くことができます。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# ホスティング
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+[Firebase](https://firebase.google.com/?hl=ja)のプロジェクトを作成して、ホスティングしてください。
+
+1. Firebaseにプロジェクトとアプリを作成してください。 その際に、Firebase CLIをインストールする必要があります。
+
+   ```
+    npm install -g firebase-tools
+   ```
+
+2. Firebase CLIでログインして、デプロイしてください。
+   ```
+    firebase login
+    make deploy
+   ```
+
+# テーブル
+
+## users
+
+| カラム名    | 型          | option   |
+| ----------- | ----------- | -------- |
+| id          | varchar     | primary  |
+| name        | varchar     | non null |
+| description | varchar     | non null |
+| github_id   | varchar     |          |
+| qiita_id    | varchar     |          |
+| x_id        | varchar     |          |
+| created_at  | timestamptz | now()    |
+
+## skills
+
+| カラム名   | 型          | option   |
+| ---------- | ----------- | -------- |
+| id         | int8        | primary  |
+| name       | varchar     | non null |
+| created_at | timestamptz | now()    |
+
+## user_skill (中間テーブル)
+
+| カラム名   | 型          | option                  |
+| ---------- | ----------- | ----------------------- |
+| id         | int8        | primary                 |
+| user_id    | varchar     | non null, fk(users.id)  |
+| skill_id   | int8        | non null, fk(skills.id) |
+| created_at | timestamptz | now()                   |
