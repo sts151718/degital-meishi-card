@@ -74,7 +74,7 @@ jobs:
       - name: Setup Firebase Project
         run: npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
       - name: Deploy to Firebase
-        run: npx firebase deploy
+        run: npx firebase deploy --only hosting
       - name: cleanUp Secrets Key
         run: |
           rm $GOOGLE_APPLICATION_CREDENTIALS
