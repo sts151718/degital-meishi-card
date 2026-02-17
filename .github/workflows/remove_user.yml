@@ -25,3 +25,6 @@ jobs:
         run: npm ci
       - name: run batch
         run: npx tsx batch/index.ts
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
